@@ -157,40 +157,70 @@
   }
   
   /* ---------- hero (main page) ---------- */
-  .hero{padding:74px 0 30px;text-align:left;position:relative}
-  .hero-in{display:grid;grid-template-columns:1.25fr .75fr;gap:40px;align-items:center}
-  @media (max-width:860px){.hero-in{grid-template-columns:1fr;gap:26px}}
-  .hero h1{font-size:clamp(34px,6vw,58px);line-height:1.08;font-weight:800;letter-spacing:-1px;margin:18px 0 14px}
-  .hero h1 .grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
-  .hero .lead{color:var(--muted);font-size:17px;max-width:56ch;margin-bottom:10px}
-  .hero .lead b{color:var(--text)}
-  .hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
-  
-  /* avatar: big circle, x1.5 */
+.hero{padding:74px 0 30px;text-align:left;position:relative}
+/* text block dissolves so badge/title/leads/cta/avatar become grid cells:
+   desktop — avatar area starts at the title row (top edge == name top edge);
+   mobile  — areas reorder to badge → title → avatar → leads → cta */
+.hero-in{
+  display:grid;
+  grid-template-columns:1.25fr .75fr;
+  column-gap:40px;row-gap:0;
+  align-items:start;
+  grid-template-areas:
+    "badge ."
+    "title avatar"
+    "lead1 avatar"
+    "lead2 avatar"
+    "cta   avatar";
+}
+.hero-text{display:contents}
+.h-badge{grid-area:badge;justify-self:start;margin-bottom:18px}
+.h-title{grid-area:title;margin-top:0}
+.h-lead1{grid-area:lead1}
+.h-lead2{grid-area:lead2}
+.h-cta{grid-area:cta}
+.h-avatar{grid-area:avatar;align-self:start}
+.hero h1{font-size:clamp(34px,6vw,58px);line-height:1.08;font-weight:800;letter-spacing:-1px;margin:0 0 14px}
+.hero h1 .grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .lead{color:var(--muted);font-size:17px;max-width:56ch;margin-bottom:10px}
+.hero .lead b{color:var(--text)}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+
+/* avatar: big circle, x1.5 */
 .avatar{
-    width:385px;height:385px;border-radius:50%;margin:0 auto;position:relative;
-    background:conic-gradient(from 210deg,#38bdf8,#8b5cf6,#ea4b71,#38bdf8);
-    padding:4px;box-shadow:0 20px 60px rgba(56,189,248,.25);
+  width:345px;height:345px;border-radius:50%;margin:10px auto;position:relative;
+  background:conic-gradient(from 210deg,#38bdf8,#8b5cf6,#ea4b71,#38bdf8);
+  padding:4px;box-shadow:0 20px 60px rgba(56,189,248,.25);
+}
+.avatar-in{
+  width:100%;height:100%;border-radius:50%;
+  background:var(--panel-2);position:relative;overflow:hidden;
+}
+/* initials layer: visible only while the photo is absent or failed to load */
+.avatar-fallback{
+  position:absolute;inset:0;display:grid;place-items:center;
+  font-size:84px;font-weight:800;letter-spacing:1px;color:var(--text);
+}
+.avatar-in img{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;          /* fill the circle, crop the overflow */
+  object-position:50% 22%;   /* keep the face in frame on tall portraits */
+}
+@media (max-width:860px){
+  .hero-in{
+    grid-template-columns:1fr;
+    grid-template-areas:
+      "badge"
+      "title"
+      "avatar"
+      "lead1"
+      "lead2"
+      "cta";
   }
-  .avatar-in{
-    width:100%;height:100%;border-radius:50%;
-    background:var(--panel-2);position:relative;overflow:hidden;
-  }
-  /* initials layer: visible only while the photo is absent or failed to load */
-  .avatar-fallback{
-    position:absolute;inset:0;display:grid;place-items:center;
-    font-size:84px;font-weight:800;letter-spacing:1px;color:var(--text);
-  }
-  .avatar-in img{
-    position:absolute;inset:0;width:100%;height:100%;
-    object-fit:cover;          /* fill the circle, crop the overflow */
-    object-position:50% 22%;   /* keep the face in frame on tall portraits */
-  }
-  @media (max-width:860px){
-    .hero-in{grid-template-columns:1fr;gap:26px}
-    /* vertical mode: photo goes above all hero content */
-    .hero-in .avatar{order:-1;margin-bottom:6px}
-  }
+  .h-avatar{margin-bottom:26px}
+  .avatar{width:220px;height:220px}
+  .avatar-fallback{font-size:64px}
+}
   
   /* ---------- stat cards: 3-tier KPI pattern (value / unit / description) ---------- */
   .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:44px 0 8px}
