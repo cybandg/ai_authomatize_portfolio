@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Скриншоты — Redmine → Zulip | Андрей Елфимов</title>
+  <meta name="description" content="Реальные скриншоты интеграции Redmine и Zulip: карточки задач в чате и bottom sheet в мобильном приложении.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%2338bdf8'/><text x='50' y='68' font-size='46' font-family='Arial' font-weight='bold' text-anchor='middle' fill='%23041019'>AE</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/css/main.css">
+</head>
+<body data-root="../../">
+
+  <main class="wrap">
+
+    <nav class="tabs">
+      <a class="tab" href="../../index.html">← Портфолио</a>
+      <a class="tab" href="index.html">Демо</a>
+      <a class="tab active" href="screens.html">Скриншоты</a>
+    </nav>
+
+    <section class="case-hero">
+      <span class="badge">Кейс 03 · Скриншоты решения</span>
+      <h1>Redmine → Zulip: как это выглядит в бою</h1>
+      <p class="lead">
+        Реальные экраны интеграции: карточки задач в корпоративном мессенджере,
+        список задач Redmine в мобильном приложении и bottom sheet с деталями внутри чата.
+      </p>
+    </section>
+
+    <section class="section mb-0">
+      <div class="fig-grid">
+
+        <figure class="fig" data-reveal>
+          <div class="img-box">
+            <img src="screens/01-zulip-link.png" alt="Zulip: задача как ссылка на Redmine"
+                 onerror="this.closest('figure').classList.add('fig-missing');this.remove()">
+            <div class="ph">📷 Слот для скриншота<br>положите файл <code>screens/01-zulip-link.png</code> рядом с этой страницей</div>
+          </div>
+          <figcaption><b>«До»: задача в чате как ссылка</b>Флаг задачи и переход в веб-Redmine — контекст обсуждения теряется</figcaption>
+        </figure>
+
+        <figure class="fig" data-reveal>
+          <div class="img-box">
+            <img src="screens/02-flutter-list.png" alt="Список задач Redmine в мобильном приложении"
+                 onerror="this.closest('figure').classList.add('fig-missing');this.remove()">
+            <div class="ph">📷 Слот для скриншота<br>положите файл <code>screens/02-flutter-list.png</code> рядом с этой страницей</div>
+          </div>
+          <figcaption><b>Сервисный экран: список задач</b>«Задачи Redmine» в мобильном приложении: приоритеты, теги, обратная связь</figcaption>
+        </figure>
+
+        <figure class="fig" data-reveal>
+          <div class="img-box">
+            <img src="screens/03-zulip-card.png" alt="Zulip: задача-карточка в чате"
+                 onerror="this.closest('figure').classList.add('fig-missing');this.remove()">
+            <div class="ph">📷 Слот для скриншота<br>положите файл <code>screens/03-zulip-card.png</code> рядом с этой страницей</div>
+          </div>
+          <figcaption><b>«После»: задача-карточка в треде</b>Номер, статус и название читаются прямо в сообщении</figcaption>
+        </figure>
+
+        <figure class="fig" data-reveal>
+          <div class="img-box">
+            <img src="screens/04-flutter-sheet.png" alt="Bottom sheet с карточкой задачи внутри чата"
+                 onerror="this.closest('figure').classList.add('fig-missing');this.remove()">
+            <div class="ph">📷 Слот для скриншота<br>положите файл <code>screens/04-flutter-sheet.png</code> рядом с этой страницей</div>
+          </div>
+          <figcaption><b>Bottom sheet с деталями</b>Статусы, исполнитель, владелец, описание, вложения и комментарии — внутри чата</figcaption>
+        </figure>
+
+        <figure class="fig" data-reveal>
+          <div class="img-box">
+            <img src="screens/05-zulip-thread.png" alt="Обсуждение задачи в чате"
+                 onerror="this.closest('figure').classList.add('fig-missing');this.remove()">
+            <div class="ph">📷 Слот для скриншота<br>положите файл <code>screens/05-zulip-thread.png</code> рядом с этой страницей</div>
+          </div>
+          <figcaption><b>Обсуждение вокруг задачи</b>Команда говорит о задаче, не покидая тред: карточка всегда под рукой</figcaption>
+        </figure>
+
+      </div>
+
+      <div class="note-strip">Если вместо скриншота виден слот-плейсхолдер — файл ещё не добавлен в папку <code>cases/redmine-zulip/screens/</code>. Имена файлов и инструкция по публикации — в README репозитория.</div>
+    </section>
+
+  </main>
+
+  <script src="../../assets/js/common.js"></script>
+</body>
+</html>

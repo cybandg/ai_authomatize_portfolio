@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Кейс 02 — Радар аномалий продуктивности | Андрей Елфимов</title>
+  <meta name="description" content="Интерактивное демо сервиса анализа аномалий продуктивности поверх таск-трекера: метрики, AI-аналитик, инсайты для решений.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%2338bdf8'/><text x='50' y='68' font-size='46' font-family='Arial' font-weight='bold' text-anchor='middle' fill='%23041019'>AE</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/css/main.css">
+</head>
+<body data-root="../../">
+
+  <main class="wrap">
+
+    <nav class="tabs">
+      <a class="tab" href="../../index.html">← Портфолио</a>
+      <a class="tab active" href="index.html">Демо</a>
+      <!-- Страницы скринов для этого кейса нет → вкладка скрыта -->
+    </nav>
+
+    <section class="case-hero">
+      <span class="badge violet">Кейс 02 · Аналитика процессов</span>
+      <h1>Радар аномалий продуктивности поверх таск-трекера</h1>
+      <p class="lead">
+        «Кажется, кто-то тормозит» — не аргумент для изменений. Сервис собирает историю задач из Redmine,
+        считает метрики скорости и прочие данные по каждому сотруднику и команде, а AI-аналитик находит статистические
+        отклонения и формулирует гипотезы. Именно так мы выявили, что команде нужны два тестировщика на фултайм, для
+        разгрузки аналитиков и повышения скорости релизов на 3-4 дня.
+      </p>
+      <div class="metrics">
+        <div class="metric"><b>по 4к+ новых задач </b><span>анализируется еженедельно</span></div>
+        <div class="metric"><b>Тестирование</b><span>должно стать отдельным процессом</span></div>
+        <div class="metric"><b>на 3-4 дня быстрее</b><span>выпускаются версии</span></div>
+      </div>
+    </section>
+
+    <section class="demo-panel" id="demoWrap">
+      <div class="demo-controls">
+        <button class="btn" id="btnRun">🔍 Найти аномалии</button>
+        <button class="btn btn-ghost" id="btnReset">↺ Заново</button>
+        <span class="demo-hint">Запуск еженедельного прогона: сбор данных и метрик → AI-анализ → лента инсайтов в мессенджере.</span>
+      </div>
+
+      <div id="flow"></div>
+
+      <div class="feed" id="feed"></div>
+      <div class="feed-sum" id="feedSum" style="display:none">
+        <span class="chip">Аномалий: 5</span>
+        <span class="chip">Команд затронуто: 3</span>
+        <span class="chip">Рекомендовано решений: 2</span>
+      </div>
+
+      <div class="flowlog" id="flowlog"></div>
+    </section>
+
+    <section class="section">
+      <div class="info-grid">
+        <div class="info-card" data-reveal>
+          <h3>🎯 Контекст</h3>
+          <ul>
+            <li>Эффективность БП и команд оценивалась «на глазок» на созвонах</li>
+            <li>Проблемы замечали поздно: когда срывались сроки</li>
+            <li>Положительные аномалии (чьими практиками стоит делиться) не замечались вовсе</li>
+          </ul>
+        </div>
+        <div class="info-card" data-reveal>
+          <h3>🛠 Решение</h3>
+          <ul>
+            <li>Сервис поверх Redmine API: история задач, статусы, возвраты на доработку</li>
+            <li>Метрики: скорость, cycle time, rework rate, загрузка ревью на сотрудника и команду</li>
+            <li>AI-аналитик: поиск отклонений от медиан и формулировка гипотез человеческим языком</li>
+          </ul>
+        </div>
+        <div class="info-card" data-reveal>
+          <h3>📈 Эффект</h3>
+          <ul>
+            <li>Выявлена потребность в 2 тестировщиках → аналитики разгружены, качество ТЗ выросло</li>
+            <li>Эффективность изменений БП стала измеримой (cycle time до/после)</li>
+            <li>Решения по нагрузке принимаются на данных, а не на ощущениях</li>
+          </ul>
+        </div>
+      </div>
+      <div class="note-strip">Имена, фамилии и цифры в демо синтетические и генерируются случайно при каждом запуске — так же, как радар выдаёт новую картину при каждом ночном прогоне.</div>
+    </section>
+
+  </main>
+
+  <script src="../../assets/js/common.js"></script>
+  <script src="../../assets/js/flowkit.js"></script>
+  <script>
+    (function () {
+      'use strict';
+
+      // synthetic insight pool: 5 of 8 are picked randomly on each run
+      var POOL = [
+        { cls: 'pos', ic: '📈', tag: 'рост',     tx: 'Мария Клитрова стала выполнять задачи на 30% быстрее за последние 2 недели — без потери качества' },
+        { cls: 'neg', ic: '⚠️', tag: 'риск',     tx: 'Задачи от Дениса Гончарова за последний месяц уходят в обратную связь в 4 раза чаще' },
+        { cls: 'ins', ic: '🧭', tag: 'решение',  tx: 'Очередь ревью: 68% задач ждут проверки >3 дней — команде нужен второй тестировщик на фултайм' },
+        { cls: 'pos', ic: '📈', tag: 'рост',     tx: 'Ольга Ремизова закрыла на 12 задач больше медианы за 3 недели — устойчивый рост, стоит разобрать её подход' },
+        { cls: 'neg', ic: '⚠️', tag: 'риск',     tx: 'Цикл задач типа «Bug» у Игоря Величко вырос в 1.8 раза — возможна перегрузка или нечёткое ТЗ' },
+        { cls: 'ins', ic: '🧭', tag: 'решение',  tx: 'После изменения БП cycle time задач «Обратная связь» снизился на 22% — решение эффективно' },
+        { cls: 'pos', ic: '📈', tag: 'рост',     tx: 'Анна Дорофеева взяла на 40% больше задач ревью, чем в прошлом месяце — узкое место смещается' },
+        { cls: 'neg', ic: '⚠️', tag: 'риск',     tx: 'Задачи Ксении Мартыновой висят в «В работе» вдвое дольше обычного — вероятен скрытый блокировщик' }
+      ];
+
+      var flow = FlowKit.mount(document.getElementById('flow'), {
+        log: '#flowlog',
+        nodes: [
+          { id: 'api',     icon: '🗄', title: 'Redmine API',   sub: 'история задач',        x: 11, y: 50 },
+          { id: 'metrics', icon: '🧮', title: 'Метрики',       sub: 'speed · rework · SLA', x: 37, y: 50 },
+          { id: 'ai',      icon: '🧠', title: 'AI-аналитик',   sub: 'поиск отклонений',     x: 63, y: 50 },
+          { id: 'report',  icon: '📡', title: 'Радар-отчёт',   sub: 'лента инсайтов',       x: 88, y: 50 }
+        ],
+        edges: [['api', 'metrics'], ['metrics', 'ai'], ['ai', 'report']],
+        mobileOrder: ['api', 'metrics', 'ai', 'report']
+      });
+
+      var btnRun = document.getElementById('btnRun');
+      var btnReset = document.getElementById('btnReset');
+      var feed = document.getElementById('feed');
+      var feedSum = document.getElementById('feedSum');
+      var running = false;
+
+      function shuffle(arr) {
+        var a = arr.slice();
+        for (var i = a.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var t = a[i]; a[i] = a[j]; a[j] = t;
+        }
+        return a;
+      }
+
+      function clearOutputs() {
+        feed.innerHTML = '';
+        feedSum.style.display = 'none';
+      }
+
+      function hardReset() {
+        flow.reset();
+        clearOutputs();
+        flow.log('Радар в режиме ожидания. Нажмите «Найти аномалии»', 'info');
+      }
+
+      async function run() {
+        if (running) { return; }
+        running = true;
+        btnRun.disabled = true;
+        btnReset.disabled = true;
+        flow.reset();
+        clearOutputs();
+
+        flow.setNode('api', 'active');
+        flow.log('Ночной прогон: запрос истории задач к Redmine API…', 'info');
+        await sleep(900);
+        flow.log('Собрано 4 812 задач · 36 сотрудников · период 6 месяцев', 'success');
+        flow.setNode('api', 'done');
+
+        await flow.runEdge('api', 'metrics', 950);
+        flow.setNode('metrics', 'active');
+        flow.log('Расчёт метрик: скорость, cycle time, rework rate, загрузка ревью…', 'info');
+        await sleep(1100);
+        flow.log('Медианы и профили по сотрудникам и командам построены', 'success');
+        flow.setNode('metrics', 'done');
+
+        await flow.runEdge('metrics', 'ai', 950);
+        flow.setNode('ai', 'active');
+        flow.log('AI-аналитик: поиск отклонений от медиан (|z| > 2.0)…', 'info');
+        await sleep(1200);
+        flow.log('Обнаружено 5 значимых отклонений, формулирую гипотезы…', 'warn');
+        await sleep(800);
+        flow.setNode('ai', 'done');
+
+        await flow.runEdge('ai', 'report', 950);
+        flow.setNode('report', 'active');
+        flow.log('Формирование ленты инсайтов для руководителя…', 'info');
+
+        var picks = shuffle(POOL).slice(0, 5);
+        for (var i = 0; i < picks.length; i++) {
+          await sleep(420);
+          var s = picks[i];
+          var card = document.createElement('div');
+          card.className = 'insight ' + s.cls;
+          card.innerHTML = '<span class="i-ic">' + s.ic + '</span><div>' + s.tx + '</div><b class="i-tag">' + s.tag + '</b>';
+          feed.appendChild(card);
+          flow.log('Инсайт #' + (i + 1) + ' [' + s.tag + ']: ' + s.tx, s.cls === 'pos' ? 'success' : (s.cls === 'neg' ? 'warn' : 'info'));
+        }
+
+        await sleep(350);
+        flow.setNode('report', 'done');
+        feedSum.style.display = 'flex';
+        confettiBurst(document.getElementById('demoWrap'), 50);
+        flow.log('Прогон завершён: 5 аномалий, 2 рекомендованных решения', 'success');
+
+        running = false;
+        btnRun.disabled = false;
+        btnReset.disabled = false;
+      }
+
+      btnRun.addEventListener('click', run);
+      btnReset.addEventListener('click', function () {
+        if (running) { return; }
+        hardReset();
+      });
+
+      hardReset();
+      console.log('[case-02] demo page ready');
+    })();
+  </script>
+</body>
+</html>

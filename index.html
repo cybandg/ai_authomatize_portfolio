@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Андрей Елфимов — AI-инженер по автоматизации бизнес-процессов</title>
+  <meta name="description" content="Портфолио Андрея Елфимова: три кликабельных кейса автоматизации — генерация кода AI-агентом, радар аномалий продуктивности, Redmine внутри корпоративного чата.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%2338bdf8'/><text x='50' y='68' font-size='46' font-family='Arial' font-weight='bold' text-anchor='middle' fill='%23041019'>AE</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body data-root="./">
+
+  <main class="wrap">
+
+    <!-- ================= HERO ================= -->
+    <section class="hero">
+      <div class="hero-in">
+        <div>
+          <span class="badge">AI-инженер · автоматизация бизнес-процессов</span>
+          <h1>Андрей Елфимов<br><span class="grad">уничтожаю скучную работу,</span><br>на которой вы теряете время и деньги</h1>
+          <p class="lead"><b>Я забираю у людей рутину и отдаю её коду и AI-агентам.</b> Это моя работа, страсть и я делаю её шесть с лишним лет — столько же, сколько пишу информационные системы и мобильные приложения.</p>
+          <p class="lead">Началось всё с лени и скуки: надоело руками собирать одни и те же фильтры и виджеты, и я сделал инструмент код-гена, а затем и агента, который стал делать это за меня. Позже заметил, что время теряют и другие на разных вещах: на переходах между трекером и чатом, на ожидании медленных страниц, на типовые задачи. Теперь я чиню и это. Ниже три истории с цифрами. Их можно потыкать: каждая схема интерактивна).</p>
+          <div class="hero-cta">
+            <a class="btn" href="#cases">Смотреть кейсы</a>
+            <button class="btn btn-ghost" data-contacts-open>Написать мне</button>
+          </div>
+        </div>
+        <div class="avatar"><div class="avatar-in">АЕ</div></div>
+      </div>
+
+      <div class="stats">
+        <div class="stat" data-reveal>
+          <b>15 мин</b>
+          <i>вместо ~2 рабочих дней</i>
+          <span>столько занимает типовая задача с тех пор, как агент сам начал писать код через моё расширение</span>
+        </div>
+        <div class="stat" data-reveal>
+          <b>3</b>
+          <i>автоматизации в портфолио</i>
+          <span>генерация кода, поиск аномалий продуктивности и трекер задач внутри чата</span>
+        </div>
+        <div class="stat" data-reveal>
+          <b>Тестирование</b>
+          <i>теперь отдельный процесс с ответственными</i>
+          <span>появились после моего анализа моего агента: он показал, где именно застревают задачи</span>
+        </div>
+        <div class="stat" data-reveal>
+          <b>2+ года</b>
+          <i>ежедневной работы с агентами и сценариями</i>
+          <span>агенты, MCP, генерация кода и разбор процессов — каждый день</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CASES ================= -->
+    <section class="section" id="cases">
+      <h2>Три автоматизации, которые можно потрогать</h2>
+      <p class="sub">Каждая схема работает как настоящая: жмите кнопки, следите за плавной работой сценария, и смотрите на результат для бизнеса.</p>
+
+      <div class="case-grid">
+        <article class="case-card" data-reveal>
+          <div class="case-head">
+            <div class="case-ic">🧩</div>
+            <h3>Агент пишет типовой код</h3>
+          </div>
+          <span class="case-metric">2 раб. дня → 15 минут</span>
+          <p>Одинаковые фильтры и виджеты раньше собирали руками примерно 2-3 дня. Я сделал расширение VS Code, реализовал MCP и дал его локальному агенту. Теперь он сам узнаёт типовую задачу, генерирует код и открывает MR. Человеку остаётся только ревью.</p>
+          <div class="case-tags">
+            <span class="chip">VS Code Extension</span><span class="chip">MCP</span><span class="chip">n8n</span><span class="chip">AI-агент</span><span class="chip">JavaScript</span>
+          </div>
+          <div class="case-links">
+            <a class="btn btn-sm" href="cases/task-autogen/index.html">Открыть демо</a>
+          </div>
+        </article>
+
+        <article class="case-card" data-reveal>
+          <div class="case-head">
+            <div class="case-ic">📡</div>
+            <h3>Радар аномалий поведения</h3>
+          </div>
+          <span class="case-metric">40к+ задач под анализом</span>
+          <p>Сервис смотрит на скорость исполнения задач, возвраты на доработку у каждого человека и команды и прочие параметры. Находит отклонения раньше, чем они становятся сорванным сроком. Именно этот анализ показал, что команде нужно делегировать тестирование, а также обнаруживает более (или менее) эффективные практики и изменения в процессах.</p>
+          <div class="case-tags">
+            <span class="chip">Redmine API</span><span class="chip">Метрики</span><span class="chip">AI-аналитик</span><span class="chip">BI</span><span class="chip">n8n</span><span class="chip">Системный анализ</span>
+          </div>
+          <div class="case-links">
+            <a class="btn btn-sm" href="cases/anomaly-radar/index.html">Открыть демо</a>
+          </div>
+        </article>
+
+        <article class="case-card" data-reveal>
+          <div class="case-head">
+            <div class="case-ic">💬</div>
+            <h3>Redmine → Zulip: задача живёт в чате</h3>
+          </div>
+          <span class="case-metric">0.4c вместо 5+с | да и просто удобнее</span>
+          <p>Раньше любое упоминание задачи — это ссылка на медленный веб-Redmine и потерянный тред обсуждения. Теперь задача живёт в чате карточкой: тап — и шторка с описанием, вложениями и комментариями. Команда говорит, что работать стало заметно комфортнее, и замеры с этим согласны.</p>
+          <div class="case-tags">
+            <span class="chip">Интеграции</span><span class="chip">Flutter</span><span class="chip">Mobile UX</span><span class="chip">Эргономика</span><span class="chip">Комфорт команды</span>
+          </div>
+          <div class="case-links">
+            <a class="btn btn-sm" href="cases/redmine-zulip/index.html">Открыть демо</a>
+            <!--<a class="btn btn-sm btn-ghost" href="cases/redmine-zulip/screens.html">Скри>ншоты</a>-->
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ================= APPROACH ================= -->
+    <section class="section">
+      <h2>Как я делаю автоматизации</h2>
+      <p class="sub">Всё, как говоится 'по учебнику' XD. Есть три шага (которые чаще всего пропускают — а потом удивляются, почему автоматизация не прижилась.)</p>
+      <div class="info-grid">
+        <div class="info-card" data-reveal>
+          <h3>🔍 Сначала смотрю, как люди работают</h3>
+          <ul>
+            <li>Сижу рядом с теми, кто делает процесс руками, и смотрю, куда реально уходит время</li>
+            <li>Спрашиваю, почему шаг делается так, а не иначе: половина «обязательных» шагов оказывается привычкой</li>
+            <li>Считаю рутину в часах и деньгах — иначе потом не с чем сравнить эффект</li>
+          </ul>
+        </div>
+        <div class="info-card" data-reveal>
+          <h3>🤖 Потом собираю</h3>
+          <ul>
+            <li>LLM и агенты с инструментами: MCP, API, расширения IDE — что подходит задаче</li>
+            <li>Связываю системы между собой: трекер, чат, мобильное приложение</li>
+            <li>Если готового решения нет — пишу сервис или нативный плагин сам</li>
+          </ul>
+        </div>
+        <div class="info-card" data-reveal>
+          <h3>📈 Потом проверяю, помогло ли</h3>
+          <ul>
+            <li>Метрики до и после: время, возвраты на доработку, обратная связь команды</li>
+            <li>Бывают и промахи: первую версию генератора кода никто не хотел ревьюить — переделывал</li>
+            <li>Если эффекта не видно — переделываю или выключаю. Священных коров нет</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= EXPERIENCE ================= -->
+    <section class="section" id="experience">
+      <h2>Где и что я делал</h2>
+      <p class="sub">От витрины Федерального Казначейства на экране во всю стену до VPN-приложения с 38 тысячами пользователей. Коротко и без приукрас.</p>
+
+      <div class="timeline">
+        <div class="tl-item" data-reveal>
+          <h3>НПО «КРИСТА» — инженер-разработчик 1 категории</h3>
+          <div class="tl-meta">октябрь 2025 — настоящее время · Ярославль</div>
+          <ul>
+            <li>Расширение VS Code + MCP: агент генерирует типовой код, ~2 раб. дня превратились в 15 минут для 5+ разработчиков</li>
+            <li>Интеграция Redmine с корпоративным мессенджером: статусы задач и обсуждения в одном чате</li>
+            <li>Ключевые UI-компоненты с комплексной анимацией и графиками для флагманского Flutter-приложения госсектора</li>
+          </ul>
+        </div>
+        <div class="tl-item" data-reveal>
+          <h3>OKVpn — руководитель разработки мобильного VPN-приложения (Flutter)</h3>
+          <div class="tl-meta">январь 2025 — август 2026</div>
+          <ul>
+            <li>Приложение с нуля до 38 000+ пользователей меньше чем за полтора года</li>
+            <li>Нативные плагины Swift/Kotlin/C++ для протоколов sing-box и xray, единый Dart API на четырёх платформах</li>
+            <li>Продуктовая аналитика (Mixpanel, Sentry), smoke-тесты и авто-тесты API (Postman) — процессы качества с нуля</li>
+            <li>Open-source плагин на pub.dev: quick_settings_with_flutter_plugins</li>
+          </ul>
+        </div>
+        <div class="tl-item" data-reveal>
+          <h3>НПО «КРИСТА» — инженер-программист 2 категории</h3>
+          <div class="tl-meta">июль 2023 — сентябрь 2025</div>
+          <ul>
+            <li>Легаси-экраны грузили данные ~20 минут; после рефакторинга и оптимизации жизненного цикла виджетов — меньше 30 секунд</li>
+            <li>Backend с нуля (Node.js/Express + PostgreSQL) для мобильной игры «СтоКРУТ»: API, авторизация, админ-панель</li>
+            <li>10+ новых экранов Flutter (GetX) с графиками и сложной фильтрацией; Android-часть AR-плагина на Kotlin</li>
+          </ul>
+        </div>
+        <div class="tl-item" data-reveal>
+          <h3>Геймдев на Unity — параллельно с основной работой</h3>
+          <div class="tl-meta">май 2022 — декабрь 2024</div>
+          <ul>
+            <li>Договорился с издателем Moonee сам: игра, собранная за 4 недели в свободное время, вышла в Google Play</li>
+            <li>Ещё две игры на Яндекс Играх и idle + merge + farm проект для внешнего издателя</li>
+          </ul>
+        </div>
+        <div class="tl-item" data-reveal>
+          <h3>НПО «КРИСТА» — инженер-разработчик</h3>
+          <div class="tl-meta">март 2020 — июнь 2023</div>
+          <ul>
+            <li>Витрина ситуационного центра Федерального Казначейства на Unity: интерактивная карта РФ с поступлениями в бюджет в реальном времени</li>
+            <li>OCR-модуль на Tesseract: поиск деталей по бумажным документам через камеру — нейросети у меня ещё до того, как это стало мейнстримом</li>
+            <li>Flutter-приложение «Бюджет.AR»: распознавание выделенного текста, bar/QR-коды, удалённая загрузка конфигураций</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= EDUCATION ================= -->
+    <section class="section" id="education">
+        <h2>Образование</h2>
+        <div class="edu-card" data-reveal>
+          <div class="edu-ic">🎓</div>
+          <div>
+            <b>НИУ ВШЭ, Высшая школа бизнеса</b>
+            <span>Бизнес-информатика · окончил в 2024 · Москва</span>
+          </div>
+        </div>
+      </section>
+
+    <!-- ================= STACK ================= -->
+    <section class="section" id="stack">
+      <h2>Стек</h2>
+      <p class="sub">Три полки: на чём пишу, что умею как аналитик и инженер, и какими инструментами пользуюсь каждый день.</p>
+
+      <div class="stack-group" data-reveal>
+        <h3>Frameworks &amp; языки</h3>
+        <div class="stack">
+          <span class="chip">Flutter / Dart</span><span class="chip">Swift</span><span class="chip">Kotlin</span><span class="chip">C++</span>
+          <span class="chip">JavaScript · Node.js / Express</span><span class="chip">Unity · Photon Quantum</span><span class="chip">SQL · PostgreSQL</span>
+        </div>
+      </div>
+
+      <div class="stack-group" data-reveal>
+        <h3>Skills</h3>
+        <div class="stack">
+          <span class="chip">Анализ и моделирование бизнес-процессов</span><span class="chip">ТЗ и требования</span><span class="chip">UML</span>
+          <span class="chip">AI-Agent Engineering (LLM, MCP)</span><span class="chip">Автоматизация бизнес-процессов</span>
+          <span class="chip">Продуктовые метрики и аналитика</span><span class="chip">Постановка задач и управление командой</span>
+          <span class="chip">English — C1</span>
+        </div>
+      </div>
+
+      <div class="stack-group" data-reveal>
+        <h3>Tools</h3>
+        <div class="stack">
+          <span class="chip">VS Code API &amp; extensions</span><span class="chip">n8n</span><span class="chip">Redmine API</span><span class="chip">Zulip API</span>
+          <span class="chip">Git · GitLab</span><span class="chip">Mixpanel · Sentry</span><span class="chip">Postman</span><span class="chip">Tesseract OCR</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CONTACTS ================= -->
+    <section class="section" id="contacts">
+      <h2>Контакты</h2>
+      <p class="sub">Быстрее всего — телеграм или почта. Кнопки копирования рядом, чтобы не выделять текст мышкой.</p>
+      <div class="contact-list" id="contactList" data-reveal></div>
+    </section>
+
+  </main>
+
+  <script src="assets/js/common.js"></script>
+</body>
+</html>

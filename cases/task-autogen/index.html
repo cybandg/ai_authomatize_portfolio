@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Кейс 01 — Генерация кода типовых задач | Андрей Елфимов</title>
+  <meta name="description" content="Интерактивное демо: AI-агент через MCP распознаёт типовую задачу, генерирует код и открывает MR. 2 рабочих дня → 15 минут.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%2338bdf8'/><text x='50' y='68' font-size='46' font-family='Arial' font-weight='bold' text-anchor='middle' fill='%23041019'>AE</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/css/main.css">
+</head>
+<body data-root="../../">
+
+  <main class="wrap">
+
+    <nav class="tabs">
+      <a class="tab" href="../../index.html">← Портфолио</a>
+      <a class="tab active" href="index.html">Демо</a>
+      <!-- Страницы скринов для этого кейса нет → вкладка скрыта -->
+    </nav>
+
+    <section class="case-hero">
+      <span class="badge">Кейс 01 · Инструменты разработки</span>
+      <h1>Генерация кода типовых задач: AI-агент + MCP + расширение VS Code</h1>
+      <p class="lead">
+        В проектах десятки однотипных задач: типовые фильтры и виджеты с предсказуемой структурой.
+        Я собрал связку «расширение VS Code + MCP-интерфейс + AI-агент», которая узнаёт типовую задачу,
+        генерирует код из сниппетов и открывает MR. Путь задачи сократился с ~2 рабочих дней до 15 минут.
+      </p>
+      <div class="metrics">
+        <div class="metric"><b>15 мин</b><span>вместо ~2 раб. дней</span></div>
+        <div class="metric"><b>5+</b><span>разработчиков экономят время</span></div>
+        <div class="metric"><b>−98%</b><span>рутины в типовом пути</span></div>
+      </div>
+    </section>
+
+    <section class="demo-panel" id="demoWrap">
+      <div class="demo-controls">
+        <button class="btn" id="btnRun">＋ Добавить задачу</button>
+        <button class="btn btn-ghost" id="btnReset">↺ Заново</button>
+        <span class="demo-hint">Нажмите «Добавить задачу» и следите за потоком: труба заполняется, когда данные переходят между узлами.</span>
+      </div>
+
+      <div class="task-slot" id="taskSlot"><div class="task-card" id="taskCard"></div></div>
+
+      <div id="flow"></div>
+
+      <div class="result-card" id="result">
+        <h4>🏆 Типовой путь пройден: 15 минут вместо ~2 рабочих дней</h4>
+        <div class="bars" id="bars">
+          <div class="bar manual"><span>Вручную</span><span class="track"><i></i></span><b>~2 раб. дня</b></div>
+          <div class="bar auto"><span>AI-агент + MCP</span><span class="track"><i></i></span><b>15 минут</b></div>
+        </div>
+      </div>
+
+      <div class="flowlog" id="flowlog"></div>
+    </section>
+
+    <section class="section">
+      <div class="info-grid">
+        <div class="info-card" data-reveal>
+          <h3>🎯 Контекст</h3>
+          <ul>
+            <li>Типовые фильтры и виджеты занимали ~2 раб. дня: boilerplate, тесты, ревью</li>
+            <li>Разработчики отвлекались от сложной логики на копипасту структуры</li>
+            <li>Нужен был инструмент внутри привычной среды, а не внешний сервис</li>
+          </ul>
+        </div>
+        <div class="info-card" data-reveal>
+          <h3>🛠 Решение</h3>
+          <ul>
+            <li>VSC-расширение: генерация типовых фильтров и виджетов из сниппетов + LLM-адаптация</li>
+            <li>MCP-интерфейс: AI-агент вызывает расширение как инструмент</li>
+            <li>Агент сравнивает задачу с библиотекой паттернов и сам открывает MR</li>
+          </ul>
+        </div>
+        <div class="info-card" data-reveal>
+          <h3>📈 Эффект</h3>
+          <ul>
+            <li>~2 раб. дня → 15 минут на типовую задачу</li>
+            <li>Единый стиль кода и меньше ручных ошибок</li>
+            <li>Разработчики фокусируются на нестандартных задачах</li>
+          </ul>
+        </div>
+      </div>
+      <div class="note-strip">Демо схематичное и игровое: реальные имена задач, MR и метрики заменены синтетическими, чтобы показать логику процесса, а не внутренние данные проекта.</div>
+    </section>
+
+  </main>
+
+  <script src="../../assets/js/common.js"></script>
+  <script src="../../assets/js/flowkit.js"></script>
+  <script>
+    (function () {
+      'use strict';
+
+      var TASKS = [
+        { t: 'Планшет. Раздел «Реестры». Фильтр по коду ГРБС', kind: 'filter' },
+        { t: 'Смартфон. Раздел «Рейтинги». Виджет «Сводная карточка»', kind: 'widget' },
+        { t: 'Планшет. Раздел «Показатели». Фильтр по периоду отчётности', kind: 'filter' },
+        { t: 'Смартфон. Дашборд. Виджет «Динамика исполнения»', kind: 'widget' }
+      ];
+
+      var flow = FlowKit.mount(document.getElementById('flow'), {
+        log: '#flowlog',
+        nodes: [
+          { id: 'task',  icon: '📥', title: 'Задача',            sub: 'Redmine · новая',      x: 9,  y: 52 },
+          { id: 'agent', icon: '🤖', title: 'AI-агент',          sub: 'MCP · проверка паттерна', x: 31, y: 52 },
+          { id: 'gen',   icon: '🧩', title: 'VS Code extension', sub: 'генерация кода',        x: 57, y: 32 },
+          { id: 'mr',    icon: '🔀', title: 'MR в GitLab',       sub: 'review + тесты',        x: 83, y: 32 },
+          { id: 'human', icon: '🧑‍', title: 'Разработчик вручную', sub: 'ветка «не типовая» ≈2 дня', x: 57, y: 86, dim: true }
+        ],
+        edges: [
+          ['task', 'agent'],
+          ['agent', 'gen'],
+          ['gen', 'mr'],
+          ['agent', 'human', { dashed: true }]
+        ],
+        // vertical mode: diamond shape so the routing is readable on phones
+        mobileRows: [['task'], ['agent'], ['gen', 'human'], ['mr']],
+        mobileOrder: ['task', 'agent', 'gen', 'human', 'mr']
+      });
+
+      var btnRun = document.getElementById('btnRun');
+      var btnReset = document.getElementById('btnReset');
+      var taskSlot = document.getElementById('taskSlot');
+      var taskCard = document.getElementById('taskCard');
+      var result = document.getElementById('result');
+      var bars = document.getElementById('bars');
+      var running = false;
+
+      function clearOutputs() {
+        taskSlot.classList.remove('show');
+        taskCard.innerHTML = '';
+        result.classList.remove('show');
+        bars.classList.remove('go');
+      }
+
+      function hardReset() {
+        flow.reset();
+        clearOutputs();
+        flow.log('System ready. Press "Add task" to start the flow', 'info');
+      }
+
+      async function run() {
+        if (running) { return; }
+        running = true;
+        btnRun.disabled = true;
+        btnReset.disabled = true;
+        flow.reset();
+        clearOutputs();
+
+        var task = TASKS[Math.floor(Math.random() * TASKS.length)];
+        var num = Math.floor(Math.random() * 900) * 1000 + Math.floor(Math.random() * 900);
+
+        flow.setNode('task', 'active');
+        taskCard.innerHTML = '<span class="tc-id">#' + num + '</span>' + task.t;
+        taskSlot.classList.add('show');
+        flow.log('New task #' + num + ': "' + task.t + '"', 'info');
+        await sleep(750);
+        flow.setNode('task', 'done');
+
+        await flow.runEdge('task', 'agent', 950);
+        flow.setNode('agent', 'active');
+        flow.log('Agent received the task via MCP interface', 'info');
+        await sleep(650);
+        flow.log('Matching against typical pattern library (12 patterns)...', 'info');
+        await sleep(950);
+        flow.log('Similarity: 94% -> route A "typical"', 'success');
+        flow.pulseEdge('agent', 'human', 1100);
+        flow.log('Route B "manual" skipped: -2 working days', 'warn');
+        await sleep(550);
+        flow.setNode('agent', 'done');
+
+        await flow.runEdge('agent', 'gen', 950);
+        flow.setNode('gen', 'active');
+        flow.log('Tool call: generate_' + task.kind + '(spec #' + num + ')...', 'code');
+        var lines = task.kind === 'filter'
+          ? ['+ lib/filters/grbs_filter.dart', '+ lib/filters/grbs_filter_test.dart', '~ snippet filter_table_v3 -> LLM adaptation to spec']
+          : ['+ lib/widgets/summary_card.dart', '+ lib/widgets/summary_card_test.dart', '~ snippet card_chart_v2 -> LLM adaptation to spec'];
+        for (var i = 0; i < lines.length; i++) {
+          await sleep(430);
+          flow.log(lines[i], 'code');
+        }
+        flow.log('Static analysis and smoke tests: OK', 'success');
+        flow.setNode('gen', 'done');
+
+        await flow.runEdge('gen', 'mr', 950);
+        flow.setNode('mr', 'active');
+        flow.log('Opened MR !482: feat/auto-' + task.kind + '-' + num, 'info');
+        await sleep(750);
+        flow.log('Reviewers assigned, pipeline green', 'success');
+        flow.setNode('mr', 'done');
+
+        await sleep(450);
+        result.classList.add('show');
+        bars.classList.add('go');
+        confettiBurst(document.getElementById('demoWrap'));
+        flow.log('Done: 15 minutes instead of ~2 working days', 'success');
+
+        running = false;
+        btnRun.disabled = false;
+        btnReset.disabled = false;
+      }
+
+      btnRun.addEventListener('click', run);
+      btnReset.addEventListener('click', function () {
+        if (running) { return; }
+        hardReset();
+      });
+
+      hardReset();
+      console.log('[case-01] demo page ready');
+    })();
+  </script>
+</body>
+</html>

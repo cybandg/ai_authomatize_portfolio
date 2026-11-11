@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кейс 03 — Redmine → Zulip: задачи внутри чата | Андрей Елфимов</title>
+    <meta name="description"
+        content="Интерактивное демо интеграции Redmine и Zulip: сравнение «сырая ссылка на медленный веб» и «карточка задачи с bottom sheet внутри чата».">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%2338bdf8'/><text x='50' y='68' font-size='46' font-family='Arial' font-weight='bold' text-anchor='middle' fill='%23041019'>AE</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/css/main.css">
+</head>
+
+<body data-root="../../">
+
+    <main class="wrap">
+
+        <nav class="tabs">
+            <a class="tab" href="../../index.html">← Портфолио</a>
+            <a class="tab active" href="index.html">Демо</a>
+            <!--<a class="tab" href="screens.html">Скриншоты</a>-->
+        </nav>
+
+        <section class="case-hero">
+            <span class="badge">Кейс 03 · Интеграции и коммуникации</span>
+            <h1>Redmine → Zulip: задача живёт там, где её обсуждают</h1>
+            <p class="lead">
+                Команда обсуждает задачи в корпоративном мессенджере, но данные лежат в Redmine.
+                Раньше это означало сырую ссылку → медленный веб-интерфейс → потерянный тред обсуждения.
+                Интеграция рисует задачу карточкой прямо в чате: тап — и bottom sheet с полным описанием,
+                исполнителем, вложениями и комментариями появляется за доли секунды, не покидая тред.
+            </p>
+            <div class="metrics">
+                <div class="metric"><b>0.4 c</b><span>доступ к данным задачи из чата</span></div>
+                <div class="metric"><b>5+ c</b><span>загрузка веб-Redmine + контекстный переход</span></div>
+                <div class="metric"><b>1 тред</b><span>обсуждение и данные задачи вместе</span></div>
+            </div>
+        </section>
+
+        <section class="demo-panel" id="demoWrap">
+            <div class="demo-controls">
+                <button class="btn" id="btnCompare">▶ Показать сравнение</button>
+                <button class="btn btn-ghost" id="btnReset">↺ Заново</button>
+                <span class="demo-hint">Или кликните сами: слева — по сырой ссылке на задачу, справа — по карточке в
+                    чате.</span>
+            </div>
+
+            <div class="duo">
+
+                <!-- ========== BEFORE ========== -->
+                <div class="duo-col" data-reveal>
+                    <div class="duo-title bad">До · сырая ссылка на веб-Redmine</div>
+                    <div class="phone" id="phoneOld">
+                        <div class="p-status"><span>13:34</span><span>📶 🔋 54%</span></div>
+                        <div class="p-head">Оркестр · МП <small>#баги-планшета</small></div>
+                        <div class="chat">
+                            <div class="msg">
+                                <div class="msg-head"><span class="ava">ПС</span><b>Павел
+                                        Стрельцов</b><time>13:34</time></div>
+                                <div class="bubble">
+                                    <div class="quote-bar"></div>
+                                    <div style="min-width:0">
+                                        <div class="q-row">
+                                            <span class="mention">Павел Стрельцов</span>
+                                            <button class="go-link" id="oldGo">Перейти</button>
+                                        </div>
+                                        <a class="rm-raw" id="oldLink"
+                                            href="https://redmine.corp/issues/285664">https://redmine.corp/issues/285664</a>
+                                        <p>@Андрей Елфимов можешь в рамках этой задачи поправить сброс фильтра периода
+                                            на планшете? Воспроизводится стабильно</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="msg mine">
+                                <div class="msg-head"><span class="ava">АЕ</span><b>Андрей Елфимов</b><time>13:41</time>
+                                </div>
+                                <div class="bubble solo">
+                                    <p>Принял, посмотрю сегодня. Ссылка на трекер, как всегда, грузится вечно 🙂</p>
+                                </div>
+                            </div>
+                            <div class="msg">
+                                <div class="msg-head"><span class="ava">ПС</span><b>Павел
+                                        Стрельцов</b><time>13:43</time></div>
+                                <div class="bubble solo">
+                                    <p>Да… пока её откроешь — теряешь нить обсуждения и возвращаешься в тред заново(</p>
+                                </div>
+                            </div>
+                            <div class="tap-hint" id="hintOld">👆 кликни по ссылке — как раньше</div>
+                        </div>
+
+                        <div class="rm-overlay" id="rmOverlay">
+                            <div class="time-badge bad" id="timeOld">0.0s</div>
+                            <div class="rm-load" id="rmLoad">
+                                <div class="spinner"></div>
+                                <div class="rm-load-title">Открытие веб-версии Redmine…</div>
+                                <ul class="rm-load-log" id="rmLoadLog"></ul>
+                            </div>
+                            <div class="rm-page" id="rmPage"
+                                style="display:none;flex-direction:column;flex:1;min-height:0">
+                                <div class="rm-browserbar">🔒 redmine.corp/issues/285664 &nbsp;⟳</div>
+                                <div class="rm-body">
+                                    <h1>#285664: Оркестр МП. Планшет. Сводки. Фильтр периода сбрасывается после поворота
+                                        экрана</h1>
+                                    <table class="rm-table">
+                                        <tr>
+                                            <td>Статус</td>
+                                            <td>Решена</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Приоритет</td>
+                                            <td>Срочный</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Исполнитель</td>
+                                            <td>Андрей Елфимов</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Владелец</td>
+                                            <td>Павел Стрельцов</td>
+                                        </tr>
+                                    </table>
+                                    <p class="rm-desc">Раздел «Сводки», вкладка «По кварталам». При повороте планшета
+                                        фильтр периода сбрасывается на «год», данные пересчитываются неверно (см.
+                                        вложение). Воспроизводится на Android 14+…</p>
+                                    <a href="#" onclick="return false">История (3)</a> | <a href="#"
+                                        onclick="return false">Вложения (1)</a>
+                                    <br>
+                                    <button class="rm-back" id="rmBack">← Вернуться в чат (и потерять тред)</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="duo-note">≈5 c загрузка, авторизация и контекстный переход — каждый раз, по каждой
+                        ссылке</div>
+                </div>
+
+                <!-- ========== AFTER ========== -->
+                <div class="duo-col" data-reveal>
+                    <div class="duo-title good">После · карточка внутри чата</div>
+                    <div class="phone" id="phoneNew">
+                        <div class="p-status"><span>13:34</span><span>📶 🔋 54%</span></div>
+                        <div class="p-head">Оркестр · МП <small>#баги-планшета</small></div>
+                        <div class="chat">
+                            <div class="msg">
+                                <div class="msg-head"><span class="ava">ПС</span><b>Павел
+                                        Стрельцов</b><time>13:34</time></div>
+                                <div class="bubble">
+                                    <div class="quote-bar"></div>
+                                    <div style="min-width:0">
+                                        <div class="q-row">
+                                            <span class="mention">Павел Стрельцов</span>
+                                        </div>
+                                        <button class="rm-chip new" id="newChip">✅ #285664 Планшет. Сводки. Фильтр
+                                            перио…</button>
+                                        <p>@Андрей Елфимов можешь в рамках этой задачи поправить сброс фильтра периода
+                                            на планшете? Воспроизводится стабильно</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="msg mine">
+                                <div class="msg-head"><span class="ava">АЕ</span><b>Андрей Елфимов</b><time>13:41</time>
+                                </div>
+                                <div class="bubble solo">
+                                    <p>Принял! Описание и видео открыл прямо из карточки — без единой загрузки редмайна
+                                        👌</p>
+                                </div>
+                            </div>
+                            <div class="msg">
+                                <div class="msg-head"><span class="ava">ПС</span><b>Павел
+                                        Стрельцов</b><time>13:42</time></div>
+                                <div class="bubble solo">
+                                    <p>Вот это удобно: статусы и вложения видно прямо в треде, никуда прыгать не надо
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="msg">
+                                <div class="msg-head"><span class="ava">НР</span><b>Нина Раева</b><time>13:47</time>
+                                </div>
+                                <div class="bubble solo">
+                                    <p>Плюсую. Перестала терять контекст между чатом и трекером — обсуждение и задача
+                                        наконец вместе</p>
+                                </div>
+                            </div>
+                            <div class="tap-hint" id="hintNew">👆 тапни по карточке задачи</div>
+                        </div>
+
+                        <div class="sheet" id="sheet">
+                            <div class="time-badge good" id="timeNew">—</div>
+                            <div class="sheet-head"><button id="sheetClose" aria-label="Закрыть">←</button> Задача
+                                #285664</div>
+                            <div class="sheet-body">
+                                <h3>Оркестр МП. Планшет. Сводки. Фильтр периода сбрасывается после поворота экрана</h3>
+                                <div class="badge-row">
+                                    <span class="b green">✅ Решена</span>
+                                    <span class="b orange">🚩 Срочный</span>
+                                    <span class="b gray">Mobile-bug</span>
+                                </div>
+                                <div class="badge-row">
+                                    <span class="b gray">👤 Исполнитель: Андрей Елфимов</span>
+                                    <span class="b gray">🧑💼 Владелец: Павел Стрельцов</span>
+                                </div>
+                                <div class="s-card">
+                                    <b>Описание</b>
+                                    <p>Раздел «Сводки», вкладка «По кварталам». При повороте планшета фильтр периода
+                                        сбрасывается на «год» и данные пересчитываются неверно. Воспроизводится на
+                                        Android 14+ (см. вложение).</p>
+                                </div>
+                                <div class="s-card">
+                                    <b>Вложения</b>
+                                    <div class="att"><span
+                                            class="f-ic">🎬</span><span>rotation_repro_2026-11-09.mp4<small>2.2 MB ·
+                                                video/mp4</small></span></div>
+                                </div>
+                                <div class="s-card">
+                                    <b>Комментарии</b>
+                                    <div class="cm"><b>Андрей Елфимов</b><time>09.11.2026 17:21</time>
+                                        <p>Статус изменён с «В работе» на «Решена»</p>
+                                    </div>
+                                </div>
+                                <div class="s-input"><span>📎 Добавить комментарий</span><span>➤</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="duo-note">0.4 c — полные данные задачи без выхода из обсуждения</div>
+                </div>
+            </div>
+
+            <div class="compare" id="compare" data-reveal>
+                <div class="cmp bad"><span>Путь к данным: веб-Redmine</span><span class="track"><i
+                            style="--w:96%"></i></span><b>5.0 c+</b></div>
+                <div class="cmp good"><span>Bottom sheet внутри чата</span><span class="track"><i
+                            style="--w:8%"></i></span><b>0.4 c</b></div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="info-grid">
+                <div class="info-card" data-reveal>
+                    <h3>🎯 Контекст</h3>
+                    <ul>
+                        <li>Обсуждения задач велись в Zulip, данные — в Redmine</li>
+                        <li>Каждая ссылка = загрузка веб-интерфейса, авторизация, потеря треда</li>
+                        <li>Статусы задач в чате устаревали мгновенно</li>
+                    </ul>
+                </div>
+                <div class="info-card" data-reveal>
+                    <h3>🛠 Решение</h3>
+                    <ul>
+                        <li>Сервис-интегратор слушает события Redmine (REST + webhooks)</li>
+                        <li>Бот Zulip рисует/обновляет карточку задачи прямо в треде</li>
+                        <li>Flutter-клиент: тап по карточке открывает bottom sheet с деталями (статусы, исполнитель,
+                            вложения, комментарии)</li>
+                    </ul>
+                </div>
+                <div class="info-card" data-reveal>
+                    <h3>📈 Эффект</h3>
+                    <ul>
+                        <li>Данные задачи — за 0.4 c вместо минут на переходы</li>
+                        <li>Обсуждение и контекст задачи живут в одном треде</li>
+                        <li>Статусы в чате всегда актуальны: карточку обновляет бот</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="note-strip">Мокапы чата и карточек стилизованы под реальные интерфейсы, но не копируют их
+                точь-в-точь; имена, проекты и номера задач синтетические. Реальные скриншоты решения — на вкладке
+                «Скриншоты».</div>
+        </section>
+
+    </main>
+
+    <script src="../../assets/js/common.js"></script>
+    <script>
+        (function () {
+            'use strict';
+
+            // ---------- BEFORE phone: slow web redmine ----------
+            var phoneOld = document.getElementById('phoneOld');
+            var rmOverlay = document.getElementById('rmOverlay');
+            var rmLoad = document.getElementById('rmLoad');
+            var rmLoadLog = document.getElementById('rmLoadLog');
+            var rmPage = document.getElementById('rmPage');
+            var timeOld = document.getElementById('timeOld');
+            var oldTimerId = null, oldStart = 0, oldOpen = false;
+
+            function startOldTimer() {
+                oldStart = performance.now();
+                timeOld.textContent = '0.0s';
+                oldTimerId = setInterval(function () {
+                    timeOld.textContent = ((performance.now() - oldStart) / 1000).toFixed(1) + 's';
+                }, 100);
+            }
+            function stopOldTimer(suffix) {
+                if (oldTimerId) { clearInterval(oldTimerId); oldTimerId = null; }
+                timeOld.textContent = ((performance.now() - oldStart) / 1000).toFixed(1) + 's' + (suffix || '');
+            }
+            function addLoadLine(tx) {
+                var li = document.createElement('li');
+                li.textContent = tx;
+                rmLoadLog.appendChild(li);
+            }
+
+            async function openOld() {
+                if (oldOpen) { return; }
+                oldOpen = true;
+                phoneOld.classList.add('touched');
+                rmOverlay.classList.add('open');
+                rmLoad.style.display = '';
+                rmPage.style.display = 'none';      // задача скрыта, пока идёт загрузка
+                rmLoadLog.innerHTML = '';
+                startOldTimer();
+                addLoadLine('GET /issues/285664');
+                await sleep(900); addLoadLine('SSO authentication...');
+                await sleep(1000); addLoadLine('Loading project settings...');
+                await sleep(1000); addLoadLine('Rendering issue and history...');
+                await sleep(1000); addLoadLine('Fetching attachments...');
+                await sleep(800);
+                rmLoad.style.display = 'none';      // спиннер и логи исчезают
+                rmPage.style.display = 'flex';      // страница задачи — только после загрузки
+                stopOldTimer(' + context switch');
+                oldOpen = false;
+            }
+
+            function closeOld() {
+                rmOverlay.classList.remove('open');
+                if (oldTimerId) { clearInterval(oldTimerId); oldTimerId = null; }
+                timeOld.textContent = '0.0s';
+                rmPage.style.display = 'none';
+                rmLoad.style.display = '';
+                rmLoadLog.innerHTML = '';
+                oldOpen = false;
+            }
+            document.getElementById('oldLink').addEventListener('click', function (e) { e.preventDefault(); openOld(); });
+            document.getElementById('oldGo').addEventListener('click', openOld);
+            document.getElementById('rmBack').addEventListener('click', closeOld);
+
+            // ---------- AFTER phone: bottom sheet ----------
+            var phoneNew = document.getElementById('phoneNew');
+            var sheet = document.getElementById('sheet');
+            var timeNew = document.getElementById('timeNew');
+            var newTimerId = null;
+
+            function openNew() {
+                phoneNew.classList.add('touched');
+                sheet.classList.add('open');
+                timeNew.textContent = '0.0s';
+                var start = performance.now();
+                if (newTimerId) { clearInterval(newTimerId); }
+                newTimerId = setInterval(function () {
+                    var v = (performance.now() - start) / 1000;
+                    if (v >= 0.4) { timeNew.textContent = '0.4s'; clearInterval(newTimerId); newTimerId = null; }
+                    else { timeNew.textContent = v.toFixed(1) + 's'; }
+                }, 50);
+            }
+            function closeNew() {
+                sheet.classList.remove('open');
+                if (newTimerId) { clearInterval(newTimerId); newTimerId = null; }
+                timeNew.textContent = '—';
+            }
+
+            document.getElementById('newChip').addEventListener('click', openNew);
+            document.getElementById('sheetClose').addEventListener('click', closeNew);
+
+            // ---------- controls ----------
+            var comparing = false;
+            document.getElementById('btnCompare').addEventListener('click', async function () {
+                if (comparing) { return; }
+                comparing = true;
+                resetAll();
+                await sleep(250);
+                openOld();
+                await sleep(1500);
+                openNew();
+                await sleep(3800);
+                comparing = false;
+            });
+
+            function resetAll() {
+                closeOld();
+                closeNew();
+                phoneOld.classList.remove('touched');
+                phoneNew.classList.remove('touched');
+            }
+            document.getElementById('btnReset').addEventListener('click', resetAll);
+
+            console.log('[case-03] demo page ready');
+        })();
+    </script>
+</body>
+
+</html>
