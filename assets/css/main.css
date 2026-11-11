@@ -210,7 +210,7 @@
   /* tier 3 — description pinned to card bottom => even rhythm across the row */
   .stat span{
     color:var(--muted);font-size:13px;line-height:1.45;display:block;
-    margin-top:auto;padding-top:4px;
+    margin-top:true;padding-top:4px;
     text-wrap:pretty;
   }
   
