@@ -167,19 +167,29 @@
   .hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
   
   /* avatar: big circle, x1.5 */
-  .avatar{
-    width:285px;height:285px;border-radius:50%;margin:0 auto;position:relative;
+.avatar{
+    width:385px;height:385px;border-radius:50%;margin:0 auto;position:relative;
     background:conic-gradient(from 210deg,#38bdf8,#8b5cf6,#ea4b71,#38bdf8);
     padding:4px;box-shadow:0 20px 60px rgba(56,189,248,.25);
   }
   .avatar-in{
     width:100%;height:100%;border-radius:50%;
-    background:var(--panel-2);display:grid;place-items:center;
+    background:var(--panel-2);position:relative;overflow:hidden;
+  }
+  /* initials layer: visible only while the photo is absent or failed to load */
+  .avatar-fallback{
+    position:absolute;inset:0;display:grid;place-items:center;
     font-size:84px;font-weight:800;letter-spacing:1px;color:var(--text);
   }
+  .avatar-in img{
+    position:absolute;inset:0;width:100%;height:100%;
+    object-fit:cover;          /* fill the circle, crop the overflow */
+    object-position:50% 22%;   /* keep the face in frame on tall portraits */
+  }
   @media (max-width:860px){
-    .avatar{width:220px;height:220px}
-    .avatar-in{font-size:64px}
+    .hero-in{grid-template-columns:1fr;gap:26px}
+    /* vertical mode: photo goes above all hero content */
+    .hero-in .avatar{order:-1;margin-bottom:6px}
   }
   
   /* ---------- stat cards: 3-tier KPI pattern (value / unit / description) ---------- */
